@@ -16,7 +16,7 @@ jobs:
     name: Build
     runs-on: [self-hosted, Windows, x64]
  
-    #environment: ${{ vars.CI_ENVIRONMENT }}
+    environment: ${{ vars.CI_ENVIRONMENT }}
     env:
       UE_INSTALL_PATH: ${{ secrets.UE_INSTALL_PATH }}
       UE_VERSION:      ${{ vars.UE_VERSION }}
@@ -25,6 +25,12 @@ jobs:
       BUILD_TARGET:    ${{ vars.BUILD_TARGET || 'Win64' }}
  
     steps:
+      - name: Debug environment
+        shell: pwsh
+        run: |
+          echo "CI_ENVIRONMENT = ${{ vars.CI_ENVIRONMENT }}"
+          echo "UE_INSTALL_PATH is set: ${{ secrets.UE_INSTALL_PATH != '' }}"
+          
       - name: Checkout
         uses: actions/checkout@v4
         with:
