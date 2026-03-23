@@ -7,6 +7,7 @@ on:
 
 jobs:
   enforce_branch_origin:
+    name: Enforce Branch Policy
     runs-on: ubuntu-latest
     steps:
       - name: Check branch origin
