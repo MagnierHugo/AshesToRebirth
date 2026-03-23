@@ -16,7 +16,7 @@ jobs:
     name: Build
     runs-on: [self-hosted, Windows, x64]
  
-    environment: ${{ vars.CI_ENVIRONMENT }}
+    #environment: ${{ vars.CI_ENVIRONMENT }}
     env:
       UE_INSTALL_PATH: ${{ secrets.UE_INSTALL_PATH }}
       UE_VERSION:      ${{ vars.UE_VERSION }}
