@@ -12,25 +12,16 @@ concurrency:
   cancel-in-progress: true
  
 jobs:
- 
-  # ============================================================================
-  # JOB 1 — BUILD (required check — blocks merge on failure)
-  # ============================================================================
   build:
     name: Build
     runs-on: [self-hosted, Windows, x64]
  
-    # Each GitHub Environment holds UE_INSTALL_PATH for that specific machine.
-    # The runner picks up the environment that matches its label.
-    # See: Settings → Environments → <env-name> → Environment secrets
     environment: ${{ vars.CI_ENVIRONMENT }}
- 
-    # Make secrets and variables available as env vars for every step in this job
     env:
       UE_INSTALL_PATH: ${{ secrets.UE_INSTALL_PATH }}
       UE_VERSION:      ${{ vars.UE_VERSION }}
       PROJECT_NAME:    ${{ vars.PROJECT_NAME }}
-      BUILD_CONFIG:    ${{ vars.BUILD_CONFIG || 'Development' }}
+      BUILD_CONFIG:    ${{ github.base_ref == 'main' && 'Shipping' || 'Development' }}
       BUILD_TARGET:    ${{ vars.BUILD_TARGET || 'Win64' }}
  
     steps:
@@ -85,7 +76,7 @@ jobs:
           Write-Host "Build succeeded."
  
       - name: Upload build log
-        if: always()   # upload even when the build fails so the error is always accessible
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: build-log-pr${{ github.event.pull_request.number }}-${{ github.run_attempt }}
