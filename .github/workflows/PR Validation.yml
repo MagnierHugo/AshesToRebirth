@@ -32,7 +32,7 @@ jobs:
           lfs: true
  
       - name: Validate environment
-        shell: pwsh
+        shell: powershell
         run: |
           $ubt = "$env:UE_INSTALL_PATH\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.exe"
           if (-not (Test-Path $ubt)) {
@@ -51,7 +51,7 @@ jobs:
  
       - name: Build
         id: build
-        shell: pwsh
+        shell: powershell
         run: |
           $ubt      = "$env:UE_INSTALL_PATH\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.exe"
           $uproject = "${{ github.workspace }}\$env:PROJECT_NAME.uproject"
